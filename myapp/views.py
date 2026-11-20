@@ -3,6 +3,7 @@ from django.db.models import Avg
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Student, Book
 
 
@@ -32,10 +33,11 @@ def book_list(request):
     return render(request, 'myapp/book_list.html', {'books': books})
 
 
-class BookListView(ListView):
+class BookListView(LoginRequiredMixin, ListView):
     model = Book
     template_name = 'myapp/book_list.html'
     context_object_name = 'books'
+    login_url = '/admin/login/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
