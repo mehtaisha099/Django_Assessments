@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Book List</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load custom_filters %}
 
-    <h1>Book List</h1>
+{% block title %}Book List{% endblock %}
+
+{% block content %}
+
+    <h2>Book List</h2>
 
     <h3>Total Books: {{ total_books }}</h3>
 
@@ -13,11 +13,18 @@
 
     <ul>
         {% for book in books %}
-            <li>{{ book.title }} - {{ book.author }}</li>
+            <li>
+                <strong>{{ book.title|truncate_words:2 }}</strong> - {{ book.author }}
+
+                {% if book.author %}
+                    <span> — Author available</span>
+                {% else %}
+                    <span> — Author not available</span>
+                {% endif %}
+            </li>
         {% empty %}
             <li>No books available.</li>
         {% endfor %}
     </ul>
 
-</body>
-</html>
+{% endblock %}
